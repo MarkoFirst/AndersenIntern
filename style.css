@@ -1,0 +1,46 @@
+.div{
+	width: 50px;
+	height: 50px;
+	background-color: blue;
+}
+
+.test1{
+	margin: 0 auto;
+}
+
+.test2{
+	transform: translate(-50%, 0);
+  	position: absolute; 
+ 	left: 50%;
+}
+
+
+.test3-body{
+	position: relative;
+}
+.test3 {
+	position: absolute; 
+	left: 50%;
+	margin-left: -25px;
+}
+
+
+.test4-body{
+	text-align: center;
+}
+.test4{
+	display: inline-block;
+}
+
+.test5{
+	position: absolute;
+  	right: 0;
+  	left: 0;
+  	margin: auto;
+}
+
+.test6-body{
+	display: flex;
+  	justify-content: center;
+ 	align-items: center;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link href="style.css" rel="stylesheet">
+	</head>
+	<body>
+		<input type="text" onkeypress="enterInput(event)">
+		<button id="addBut" onclick="add()">Add</button>
+		<button id="saveBut" onclick="save()">Save</button>
+		<br><br>
+		<div>
+			<ol>
+				
+			</ol>
+		</div>
+		<div class="pagination">
+			<button value="non" onclick="firstPage()" class="pagBut">Начало</button>
+			<button value="non" onclick="lastPage()" class="pagBut last">Конец</button>
+		</div>
+		<br><br>
+		<button id="removeAllBut" onclick="removeAll()">Remove all</button>
+	</body>
+	<script src="./script.js" defer></script>
+</html>

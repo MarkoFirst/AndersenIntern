@@ -1,0 +1,18 @@
+<!--<br><span class="test">Тест: {{chatId}}</span>-->
+
+<div class="chat">
+  <div class="chat-block">
+    <div class="messages-block">
+      <div *ngFor="let message of messages" class="mes-block">
+        <h5 [class.user-mi]="message.user === mi">{{ message.text }} <span>{{ checkDate(message.date)}}</span></h5>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <input (keyup.enter)="addNewContent()" type="text" [(ngModel)]="newContent" placeholder="New message">
+    <button (click)="addNewContent()">
+      Add new Message
+    </button>
+  </div>
+</div>

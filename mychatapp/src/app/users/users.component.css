@@ -1,0 +1,13 @@
+.user-btns{
+  position: fixed;
+  margin: 50px;
+  left: 0;
+}
+.user-btns > div {
+  display: block;
+  margin: 10px;
+}
+.test{
+  float: bottom;
+  color: white;
+}

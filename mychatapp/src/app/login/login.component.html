@@ -1,0 +1,31 @@
+<div class="logo">
+  <h1>MyChatApp</h1>
+</div>
+<div *ngIf="!(authService.user | async)">
+
+  <form action="" [formGroup]="newUserForm" novalidate>
+    <input type="text" [(ngModel)]="newLogin" class="login-inp" [formControl]="newLoginForm" placeholder="login">
+  </form>
+
+  <input type="text" [(ngModel)]="email" placeholder="email">
+  <input type="password" [(ngModel)]="password" placeholder="password">
+
+  <a>
+    <button (click)="signup()" [disabled]="!email || !password">
+      Signup
+    </button>
+  </a>
+
+  <a>
+    <button class="login-btn" (click)="login()" [disabled]="!email || !password">
+      Login
+    </button>
+  </a>
+
+  <br><br>
+  <p>Form value: {{ newLoginForm.value | json }}</p>
+
+</div>
+<button class="logout" (click)="logout()" *ngIf="authService.user | async">
+  Logout
+</button>
