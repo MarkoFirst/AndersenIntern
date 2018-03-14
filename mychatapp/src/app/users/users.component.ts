@@ -2,8 +2,9 @@ import {Component, Injectable, OnInit} from '@angular/core';
 import {StoreService} from '../services/store/store.service';
 import {DbService} from '../services/db/db.service';
 import {Router} from '@angular/router';
-import {Chat, MyUser} from '../interfaces/all-interfaces';
+import {DictionaryInterface, Mes, MyUser} from '../interfaces/all-interfaces';
 import {Title} from '@angular/platform-browser';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-users',
@@ -16,7 +17,7 @@ export class UsersComponent implements OnInit {
   users: MyUser[] = [];
   usersStart: MyUser[] = [];
   currentUser: MyUser;
-  chatId: string;
+  find = new FormControl();
 
   constructor(public db: DbService, private storeService: StoreService, private router: Router, private titleService: Title) {
   }
@@ -31,24 +32,13 @@ export class UsersComponent implements OnInit {
     this.storeService.user.subscribe((user: MyUser) => {
       this.currentUser = user;
     });
+
+    this.find.valueChanges.subscribe(find => {
+      this.users = this.usersStart.filter(({login}: MyUser) => login.toUpperCase().includes(find.toUpperCase()));
+    });
   }
 
-  start(event: any) {
-    if (event.target.value !== '') {
-      const arr = [];
-      for (const i of this.users) {
-        if (i.login.slice(0, event.target.value.length) === event.target.value) {
-          arr.push(i);
-        }
-      }
-      this.users = arr;
-    } else {
-      this.users = this.usersStart;
-    }
-  }
-
-  checkChat(chat: string) {
-
+  checkChat(chat: string): void {
     if (this.currentUser.chats[chat] !== undefined) {
       this.enterInRealChat(this.currentUser.chats[chat]);
     } else {
@@ -56,16 +46,13 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  enterInRealChat(check: string) {
+  enterInRealChat(check: string): void {
     this.db.selectDB('chats/' + check, ref => ref)
-      .subscribe((chats: Chat[]) => {
-        this.chatId = typeof chats[0] === 'string' ? chats[0] + '' : chats[1] + '';
-        console.log('my chat', this.chatId);
-        this.router.navigate(['/users/chat/', this.chatId]);
-      });
+      .map((items: (string | DictionaryInterface<Mes>)[]) => items.find(el => typeof el === 'string'))
+      .subscribe(id => this.router.navigate(['/users/chat/', id]));
   }
 
-  createChat(chat: string) {
+  createChat(chat: string): void {
     const newPostKey = this.db.getNewId('chats');
     const postData = {
       idChat: newPostKey,
@@ -81,7 +68,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  addChatToClient(id1: string, id2: string, key: string) {
+  addChatToClient(id1: string, id2: string, key: string): void {
     const updates2 = {};
     updates2['/users/' + id1 + '/chats/' + id2] = key;
     this.db.addNewChat(updates2);

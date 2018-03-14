@@ -26,7 +26,7 @@ export class DbService {
     return this.db.database.ref().child(from).push().key;
   }
 
-  addNewChat(newChat: any) {
+  addNewChat(newChat: any): void {
     this.db.database.ref().update({...newChat});
   }
 }

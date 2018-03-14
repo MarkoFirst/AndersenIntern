@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth/auth.service';
-import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
+import {Login} from '../interfaces/all-interfaces';
 
 @Component({
   selector: 'app-login',
@@ -10,41 +11,29 @@ import {Title} from '@angular/platform-browser';
 })
 export class LoginComponent implements OnInit {
 
-  newLogin: string;
-  email: string;
-  password: string;
-
   newUserForm: FormGroup;
-  newLoginForm = new FormControl();
 
-  constructor(public authService: AuthService, private fb: FormBuilder, private titleService: Title) {
-    this.createForm();
-  }
-
-  createForm() {
-    this.newUserForm = this.fb.group({
-      newLoginForm: ['', Validators.required ]
-    });
+  constructor(public authService: AuthService, private titleService: Title) {
   }
 
   ngOnInit() {
     this.titleService.setTitle('Вход');
+
+    this.newUserForm = new FormGroup({
+      email: new FormControl(),
+      password: new FormControl(),
+    });
   }
 
-  signup() {
-    if (this.newLogin && this.email && this.password) {
-      this.authService.signup(this.email, this.password, this.newLogin);
-      this.email = this.password = '';
+  onSubmit({login, email, password}: Login): void {
+    if (login) {
+      this.authService.signup(email, password, login);
+      return;
     }
+    this.authService.login(email, password);
   }
 
-  login() {
-    this.authService.login(this.email, this.password);
-    this.email = this.password = '';
+  signup(): void {
+    this.newUserForm.addControl('newLogin', new FormControl('', Validators.required));
   }
-
-  logout() {
-    this.authService.logout();
-  }
-
 }

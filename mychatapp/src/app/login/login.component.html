@@ -3,29 +3,15 @@
 </div>
 <div *ngIf="!(authService.user | async)">
 
-  <form action="" [formGroup]="newUserForm" novalidate>
-    <input type="text" [(ngModel)]="newLogin" class="login-inp" [formControl]="newLoginForm" placeholder="login">
+  <form action="" [formGroup]="newUserForm" #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)" novalidate>
+    <input *ngIf="!!(newUserForm.controls.hasOwnProperty('newLogin'))" type="text" formControlName="newLogin" placeholder="login" required>
+    <input type="text" formControlName="email" placeholder="email" required>
+    <input type="password" formControlName="password" placeholder="password" required>
+
+    <button type="submit">Login</button>
   </form>
 
-  <input type="text" [(ngModel)]="email" placeholder="email">
-  <input type="password" [(ngModel)]="password" placeholder="password">
-
-  <a>
-    <button (click)="signup()" [disabled]="!email || !password">
-      Signup
-    </button>
-  </a>
-
-  <a>
-    <button class="login-btn" (click)="login()" [disabled]="!email || !password">
-      Login
-    </button>
-  </a>
-
-  <br><br>
-  <p>Form value: {{ newLoginForm.value | json }}</p>
+  <button *ngIf="!(newUserForm.controls.hasOwnProperty('newLogin'))" (click)="signup()">Signup</button>
 
 </div>
-<button class="logout" (click)="logout()" *ngIf="authService.user | async">
-  Logout
-</button>
+<button class="logout" (click)="authService.logout()" *ngIf="authService.user | async">Logout</button>

@@ -1,4 +1,3 @@
-
 export interface MyUser {
   id: string;
   login: string;
@@ -18,6 +17,12 @@ export interface Chat {
   messages: Mes;
 }
 
-interface ChatUser {
-  idUser: string;
+export interface Login {
+  login?: any;
+  email: any;
+  password: any;
+}
+
+export interface DictionaryInterface<T> {
+  [key: string]: T;
 }

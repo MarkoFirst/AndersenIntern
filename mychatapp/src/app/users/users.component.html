@@ -1,10 +1,10 @@
 <div class="ggl">
-  <input type="text" (keyup)="start($event)" placeholder="Поиск">
+  <input type="text" [formControl]="find" placeholder="Поиск">
 </div>
 <div class="user-btns">
-    <div *ngFor="let user of users" >
-      <button (click)="checkChat(user.id)">{{ user.login }}</button>
-    </div>
+  <div *ngFor="let user of users">
+    <button (click)="checkChat(user.id)">{{ user.login }}</button>
+  </div>
 </div>
 
 <div class="chats">

@@ -29,7 +29,7 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  initChat() {
+  initChat(): void {
     this.storeService.user.subscribe((user: MyUser) => {
       this.mi = user.login;
       this.db.selectDB<Mes>('/chats/' + this.usersInChat + '/messages/', ref => {
@@ -39,11 +39,11 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  checkDate(mesDate: any) {
+  checkDate(mesDate: any): string {
     return (new Date(mesDate).getHours() + ':' + new Date(mesDate).getMinutes());
   }
 
-  addNewContent() {
+  addNewContent(): void {
     this.storeService.user.subscribe((user: MyUser) => {
       this.db.insertDB('/chats/' + this.usersInChat + '/messages/', {
         'text': this.newContent,
