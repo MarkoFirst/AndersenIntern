@@ -10,6 +10,7 @@ export interface Mes {
   date: number;
   text: string;
   user: string;
+  type?: string;
 }
 
 export interface Chat {
@@ -18,7 +19,7 @@ export interface Chat {
 }
 
 export interface Login {
-  login?: any;
+  newLogin?: any;
   email: any;
   password: any;
 }

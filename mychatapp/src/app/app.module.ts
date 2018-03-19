@@ -17,13 +17,14 @@ import {StoreService} from './services/store/store.service';
 import {DbService} from './services/db/db.service';
 
 import {MyRoutesModule} from './routes/my-routes.module';
+import {AngularFireStorageModule} from 'angularfire2/storage';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyD1R647Wp9qUwqb8JK_tKSd_KlFPWwpTiA',
   authDomain: 'mychatapp-mf.firebaseapp.com',
   databaseURL: 'https://mychatapp-mf.firebaseio.com',
   projectId: 'mychatapp-mf',
-  storageBucket: '',
+  storageBucket: 'mychatapp-mf.appspot.com',
   messagingSenderId: '357679193170'
 };
 
@@ -41,10 +42,12 @@ export const firebaseConfig = {
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
     ReactiveFormsModule,
     MyRoutesModule
   ],
   providers: [AuthService, StoreService, DbService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

@@ -63,8 +63,8 @@ export class UsersComponent implements OnInit {
 
     const updates = {};
     updates['/chats/' + newPostKey] = postData;
-    this.db.updateDB(updates).then(res => {
-      this.router.navigate(['/users/chat', chat]);
+    this.db.updateDB(updates).then(() => {
+      this.router.navigate(['/users/chat', newPostKey]);
     });
   }
 

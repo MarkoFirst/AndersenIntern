@@ -24,7 +24,7 @@ export class AuthService {
     this.user = firebaseAuth.authState;
   }
 
-  signup(email: string, password: string, login: string) {
+  signup(email: string, password: string, newLogin: string) {
     this.firebaseAuth
       .auth
       .createUserWithEmailAndPassword(email, password)
@@ -33,23 +33,22 @@ export class AuthService {
         // Get a key for a new Post.
         const newPostKey = this.myDb.getNewId('users');
         const postData = {
-          login,
+          login: newLogin,
           id: newPostKey,
-          password,
+          password: password,
           mail: email
         };
         this.storeService.setUser({
           id: newPostKey,
-          login,
+          login: newLogin,
           mail: email,
-          password,
+          password: password,
           chats: {}
         });
-        // Write the new post's data simultaneously in the posts list and the user's post list.
+
         const updates = {};
-        updates['/chats/' + newPostKey] = postData;
+        updates['/users/' + newPostKey] = postData;
         this.logined = new BehaviorSubject<boolean>(true);
-        localStorage.setItem('logged', JSON.stringify(true));
         this.router.navigateByUrl('/users');
         return this.db.database.ref().update(updates);
       })
@@ -64,14 +63,11 @@ export class AuthService {
       .signInWithEmailAndPassword(email, password)
       .then(value => {
         this.logined = new BehaviorSubject<boolean>(true);
-        localStorage.setItem('logged', JSON.stringify(true));
         this.myDb.selectDB('users', ref =>
           ref.orderByChild('mail').equalTo(value.email)).subscribe((users: MyUser[]) => {
           this.storeService.setUser(users[0]);
         });
         this.router.navigateByUrl('/users');
-        console.log('Nice, it worked!', value);
-
       })
       .catch(err => {
         console.log('Something went wrong:', err.message);
@@ -80,7 +76,6 @@ export class AuthService {
 
   logout() {
     this.logined = new BehaviorSubject<boolean>(false);
-    localStorage.setItem('logged', JSON.stringify(false));
     this.firebaseAuth
       .auth
       .signOut();

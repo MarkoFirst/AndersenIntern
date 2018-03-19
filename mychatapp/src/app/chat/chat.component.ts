@@ -4,6 +4,9 @@ import {ActivatedRoute} from '@angular/router';
 import {Mes, MyUser} from '../interfaces/all-interfaces';
 import {StoreService} from '../services/store/store.service';
 import {Title} from '@angular/platform-browser';
+import {FirebaseApp} from 'angularfire2';
+import 'firebase/storage';
+import {AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask} from 'angularfire2/storage';
 
 
 @Component({
@@ -18,7 +21,12 @@ export class ChatComponent implements OnInit {
 
   mi: string;
 
-  constructor(public  db: DbService, private storeService: StoreService, public route: ActivatedRoute, private titleService: Title) {
+  ref: AngularFireStorageReference;
+  task: AngularFireUploadTask;
+
+  constructor(public  db: DbService, private storeService: StoreService, public route: ActivatedRoute,
+              private titleService: Title, private firebaseApp: FirebaseApp,
+              private afStor: AngularFireStorage) {
   }
 
   ngOnInit() {
@@ -37,6 +45,7 @@ export class ChatComponent implements OnInit {
       }).subscribe(messages => this.messages = messages);
       return;
     });
+
   }
 
   checkDate(mesDate: any): string {
@@ -46,11 +55,31 @@ export class ChatComponent implements OnInit {
   addNewContent(): void {
     this.storeService.user.subscribe((user: MyUser) => {
       this.db.insertDB('/chats/' + this.usersInChat + '/messages/', {
-        'text': this.newContent,
-        'date': Date.now(),
-        'user': user.login
+        text: this.newContent,
+        date: Date.now(),
+        user: user.login
+      }).then(() => {
+        this.newContent = '';
+      }).catch(err => {
+        console.log('Something went wrong:', err.message);
       });
-      this.newContent = '';
+    });
+  }
+
+  addFile(event) {
+    const file = event.target.files.item(0);
+    this.ref = this.afStor.ref(file.name);
+    this.task = this.ref.put(file);
+    this.task.downloadURL().subscribe(response => {
+
+      this.storeService.user.subscribe((user: MyUser) => {
+        this.db.insertDB('/chats/' + this.usersInChat + '/messages/', {
+          text: response,
+          date: Date.now(),
+          user: user.login,
+          type: 'img'
+        });
+      });
     });
   }
 }

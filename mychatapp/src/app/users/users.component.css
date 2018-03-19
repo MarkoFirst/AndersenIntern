@@ -1,13 +1,12 @@
 .user-btns{
-  position: fixed;
-  margin: 50px;
-  left: 0;
+  width: 350px;
+  display: inline-block;
 }
 .user-btns > div {
-  display: block;
   margin: 10px;
 }
-.test{
-  float: bottom;
-  color: white;
+.chats{
+  position: absolute;
+  width: 50%;
+  display: inline-block;
 }
