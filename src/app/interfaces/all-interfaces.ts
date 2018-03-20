@@ -3,7 +3,7 @@ export interface MyUser {
   login: string;
   mail: string;
   password: string;
-  chats: Chat;
+  chats: Chat[];
 }
 
 export interface Mes {
