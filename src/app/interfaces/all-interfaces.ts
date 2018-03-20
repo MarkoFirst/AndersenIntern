@@ -3,7 +3,7 @@ export interface MyUser {
   login: string;
   mail: string;
   password: string;
-  chats: any;
+  chats: Chat;
 }
 
 export interface Mes {
@@ -14,14 +14,13 @@ export interface Mes {
 }
 
 export interface Chat {
-  idChat: string;
-  messages: Mes;
+  [key: string]: string;
 }
 
 export interface Login {
-  newLogin?: any;
-  email: any;
-  password: any;
+  newLogin?: string;
+  email: string;
+  password: string;
 }
 
 export interface DictionaryInterface<T> {
