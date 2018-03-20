@@ -37,6 +37,9 @@ export class ChatComponent implements OnInit {
     });
   }
 
+
+
+
   initChat(): void {
     this.storeService.user.subscribe((user: MyUser) => {
       this.mi = user.login;
@@ -57,7 +60,8 @@ export class ChatComponent implements OnInit {
       this.db.insertDB('/chats/' + this.usersInChat + '/messages/', {
         text: this.newContent,
         date: Date.now(),
-        user: user.login
+        user: user.login,
+        type: 'text'
       }).then(() => {
         this.newContent = '';
       }).catch(err => {

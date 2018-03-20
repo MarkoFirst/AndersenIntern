@@ -3,7 +3,7 @@
     <div class="messages-block">
       <div *ngFor="let message of messages" class="mes-block">
         <h5 [class.user-mi]="message.user === mi">
-          <span *ngIf="message.type === undefined">{{ message.text }}</span>
+          <span *ngIf="message.type === 'text'">{{ message.text }}</span>
           <img *ngIf="message.type === 'img'" [src]="message.text">
 
           <span class="date-span">{{ checkDate(message.date)}}</span>
