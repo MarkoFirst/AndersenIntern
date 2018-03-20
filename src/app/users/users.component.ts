@@ -39,6 +39,9 @@ export class UsersComponent implements OnInit {
   }
 
   checkChat(chat: string): void {
+
+    console.log('тут', this.currentUser);
+
     if (this.currentUser.chats[chat] !== undefined) {
       this.enterInRealChat(this.currentUser.chats[chat]);
     } else {

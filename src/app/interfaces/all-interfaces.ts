@@ -3,7 +3,7 @@ export interface MyUser {
   login: string;
   mail: string;
   password: string;
-  chats: Chat[];
+  chats?: {};
 }
 
 export interface Mes {
@@ -11,10 +11,6 @@ export interface Mes {
   text: string;
   user: string;
   type?: string;
-}
-
-export interface Chat {
-  [key: string]: string;
 }
 
 export interface Login {
